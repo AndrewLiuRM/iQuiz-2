@@ -41,6 +41,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("called");
         selected = list?[(tableView.cellForRow(at: indexPath) as! ReuseTableViewCell).Title.text!]
+        NSLog(selected!.list[0].prompt)
         self.performSegue(withIdentifier: "showView", sender: self)
     }
     
@@ -49,7 +50,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         {
             let vc = segue.destination as? SwitchViewController
             vc?.data = selected
-            NSLog((selected?.list[0].prompt)!)
+            
         }
     }
     
@@ -58,10 +59,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         data.append(Cell(title: "Mathematics", description: "content", image: "math"))
         data.append(Cell(title: "Marvel Super Heros", description: "content", image: "marvel"))
         data.append(Cell(title: "Science", description: "content", image: "science"))
-        var l1 = QuestionList(Question(prompt: "Q1", correct: "1", "1", "2", "3", "4"), Question(prompt: "Q2", correct: "2", "1", "2", "3", "4"), Question(prompt: "Q3", correct: "3", "1", "2", "3", "4"), Question(prompt: "Q4", correct: "4", "1", "2", "3", "4"))
-        list = ["Mathematic": l1, "Marvel Super Heros": l1, "Science": l1]
+        var l1 = QuestionList(Question(prompt: "What is fire?", correct: "One of the four classical elements", answer: "One of the four classical elements", "A magical reaction given to us by God", "A band that hasn't yet been discovered", "Fire! Fire! Fire! heh-heh"))
+        var l2 = QuestionList(Question(prompt: "Who is Iron Man", correct: "Tony Stark", answer: "Tony Stark", "Obadiah Stane", "A rock hit by Megadeth", "Nobody knows"), Question(prompt: "Who founded the X-Men?", correct: "Professor X", answer: "Tony Stark", "Professor X", "The X-Institute", "Erik Lensherr"), Question(prompt: "How did Spider-Man get his powers?", correct: "He was bitten by a radioactive spider", answer: "He was bitten by a radioactive spider", "He ate a radioactive spider", "He is a radioactive spider", "He looked at a radioactive spider"))
+        var l3 = QuestionList(Question(prompt: "What is 2+2?", correct: "4", answer: "4", "22", "An irrational number", "Nobody knows"))
+        list = ["Mathematics": l3, "Marvel Super Heros": l2, "Science": l1]
         NSLog("\(data.count)")
         table.dataSource = self
+        table.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -73,3 +77,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 }
 
+extension UIViewController {
+    func swipeAction(swipe: UISwipeGestureRecognizer) {
+
+    }
+}

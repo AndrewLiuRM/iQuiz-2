@@ -11,11 +11,9 @@ import UIKit
 class SwitchViewController: UIViewController {
     public var data: QuestionList?
     public var isAnswer:Bool = false
-    public var current = 0;
     
-    @IBAction func nextBtnClicked(_ sender: Any) {
-        switchViewsNext()
-    }
+    
+
     
     // {{## BEGIN fields ##}}
     fileprivate var questionViewController : QuestionViewController!
@@ -28,6 +26,12 @@ class SwitchViewController: UIViewController {
         // Do any additional setup after loading the view.
         questionBuilder()
         switchViewController(nil, to: questionViewController)
+//        let transition = CATransition()
+//        transition.duration = 0.3
+//        transition.type = kCATransitionPush
+//        transition.subtype = kCATransitionFromRight
+//        view.window!.layer.add(transition, forKey: kCATransition)
+//        present(questionViewController, animated: false, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,29 +47,22 @@ class SwitchViewController: UIViewController {
                     .instantiateViewController(withIdentifier: "Question")
                 as! QuestionViewController
         }
-        questionViewController.Prompt.text = data?.list[current].prompt
-        questionViewController.question = data?.list[current]
-    }
-    fileprivate func answerBuilder() {
-        NSLog("Answer Loaded")
-        if answerViewController == nil {
-            answerViewController =
-                storyboard?
-                    .instantiateViewController(withIdentifier: "Answer")
-                as! AnswerViewController
-        }
+        questionViewController.question = data
+        questionViewController.current = 0
+//        questionViewController.questionViewController = self.questionViewController
+        questionViewController.result = []
     }
     // {{## END builders ##}}
     
     // {{## BEGIN switchViewController ##}}
-    fileprivate func switchViewController(_ from: UIViewController?, to: UIViewController?) {
+    func switchViewController(_ from: UIViewController?, to: UIViewController?) {
         NSLog("called")
         if from != nil {
             from!.willMove(toParentViewController: nil)
             from!.view.removeFromSuperview()
             from!.removeFromParentViewController()
         }
-        
+
         if to != nil {
             self.addChildViewController(to!)
             self.view.insertSubview(to!.view, at: 0)
@@ -75,26 +72,20 @@ class SwitchViewController: UIViewController {
     // {{## END switchViewController ##}}
     
     // {{## BEGIN switch-with-animation ##}}
-    fileprivate func switchViewsNext() {
-        UIView.beginAnimations("View Flip", context: nil)
-        UIView.setAnimationDuration(0.4)
-        UIView.setAnimationCurve(.easeInOut)
-        
-        if questionViewController != nil &&
-            questionViewController?.view.superview != nil {
-            answerBuilder()
-            UIView.setAnimationTransition(.flipFromLeft, for: view, cache: true)
-            answerViewController.view.frame = view.frame
-            switchViewController(questionViewController, to: answerViewController)
-        }
-        else {
-            questionBuilder()
-            UIView.setAnimationTransition(.flipFromLeft, for: view, cache: true)
-            questionViewController.view.frame = view.frame
-            switchViewController(answerViewController, to: questionViewController)
-        }
-        UIView.commitAnimations()
-    }
+//    fileprivate func switchViewsNext() {
+//        UIView.beginAnimations("View Flip", context: nil)
+//        UIView.setAnimationDuration(0.4)
+//        UIView.setAnimationCurve(.easeInOut)
+//
+//        if questionViewController == nil ||
+//            questionViewController?.view.superview == nil {
+//            questionBuilder()
+//            UIView.setAnimationTransition(.flipFromLeft, for: view, cache: true)
+//            questionViewController.view.frame = view.frame
+//            switchViewController(answerViewController, to: questionViewController)
+//        }
+//        UIView.commitAnimations()
+//    }
     // {{## END switch-with-animation ##}}
 
     /*

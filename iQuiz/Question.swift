@@ -12,12 +12,12 @@ class Question {
     public var prompt:String
     public var answer:[String]
     public var correct:String
-    init(prompt: String, correct: String, _ answer: String...) {
+    init(prompt: String, correct: String, answer: String...) {
         self.prompt = prompt
         self.answer = answer
         if answer.count == 0 || !answer.contains(correct) {
             self.answer = ["No answer available"]
         }
-        self.correct = answer[0]
+        self.correct = correct
     }
 }
