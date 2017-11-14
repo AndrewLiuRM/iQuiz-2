@@ -9,6 +9,18 @@
 import UIKit
 
 class AnswerViewController: UIViewController {
+    @IBAction func backBtnClicked(_ sender: Any) {
+        var viewController =
+            storyboard?
+                .instantiateViewController(withIdentifier: "Main")
+                as! ViewController
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(viewController, animated: false, completion: nil)
+    }
     public var current:Int?
     public var question:QuestionList?
     public var result:[Bool]?
